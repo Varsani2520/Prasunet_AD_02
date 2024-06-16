@@ -1,77 +1,93 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { addTodo } from '@/hooks/action';
+import { Picker } from '@react-native-picker/picker';
 
-const AddScreen = ({ onSave }) => {
+const AddScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
-  const [timing, setTiming] = useState('');
-  const [tag, setTag] = useState('');
+  const [timing, setTiming] = useState(new Date());
+  const [category, setCategory] = useState('design');
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState('#FFFF00');
 
-  const handleSubmit = async () => {
+  const dispatch = useDispatch();
+
+  const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || timing;
+    setShowDatePicker(false);
+    setTiming(currentDate);
+  };
+
+  const handleSubmit = () => {
     const todoItem = {
+      id: Date.now().toString(), // Ensure each todo has a unique id
       title,
       subtitle,
-      timing,
-      tag,
+      timing: timing.toLocaleString(),
+      tag: category,
       backgroundColor,
+      progress: 0, // Initialize progress
     };
 
-    try {
-      // Retrieve existing todos or initialize empty array if none exists
-      const existingTodos = await AsyncStorage.getItem('todos');
-      const todos = existingTodos ? JSON.parse(existingTodos) : [];
+    dispatch(addTodo(todoItem));
 
-      // Add new todoItem to the list
-      todos.push(todoItem);
+    setTitle('');
+    setSubtitle('');
+    setTiming(new Date());
+    setCategory('design');
+    setBackgroundColor('#FFFF00');
 
-      // Save updated todos list back to AsyncStorage
-      await AsyncStorage.setItem('todos', JSON.stringify(todos));
-
-      // Notify parent component (likely TodoScreen) of save
-      onSave(); // Ensure onSave is a function and is called correctly
-      
-      // Optionally, reset state or close modal
-      setTitle('');
-      setSubtitle('');
-      setTiming('');
-      setTag('');
-      setBackgroundColor('#FFFFFF');
-    } catch (error) {
-      console.error('Error saving todo item:', error);
-      // Handle error (e.g., show error message)
-    }
+    navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add TODO Item</Text>
+      <Text style={styles.title}>New Task</Text>
       <TextInput
         style={styles.input}
-        placeholder="Title"
+        placeholder="Task Title"
         value={title}
         onChangeText={setTitle}
       />
+      <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+        <TextInput
+          style={styles.input}
+          placeholder="Select Date"
+          value={timing.toLocaleDateString()}
+          editable={false}
+        />
+      </TouchableOpacity>
+      {showDatePicker && (
+        <DateTimePicker
+          value={timing}
+          mode="date"
+          display="default"
+          onChange={handleDateChange}
+        />
+      )}
       <TextInput
         style={styles.input}
-        placeholder="Subtitle"
+        placeholder="Task Details"
         value={subtitle}
         onChangeText={setSubtitle}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Timing"
-        value={timing}
-        onChangeText={setTiming}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Tag"
-        value={tag}
-        onChangeText={setTag}
-      />
-      <Button title="Submit" onPress={handleSubmit} />
+      <Text style={styles.inputLabel}>Select Category:</Text>
+      <Picker
+        selectedValue={category}
+        style={styles.picker}
+        onValueChange={(itemValue) => setCategory(itemValue)}
+      >
+        <Picker.Item label="Design" value="design" />
+        <Picker.Item label="Development" value="development" />
+        <Picker.Item label="Coding" value="coding" />
+        <Picker.Item label="Meeting" value="meeting" />
+        <Picker.Item label="Office Time" value="office time" />
+        <Picker.Item label="User Experience" value="user experience" />
+      </Picker>
+      <Button title="Create Task" onPress={handleSubmit} />
     </View>
   );
 };
@@ -96,6 +112,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 4,
+  },
+  inputLabel: {
+    alignSelf: 'flex-start',
+    marginBottom: 5,
+    marginLeft: 10,
+    color: '#555',
+  },
+  picker: {
+    width: '100%',
+    marginBottom: 20,
   },
 });
 
