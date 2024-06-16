@@ -1,37 +1,98 @@
-import { Tabs } from 'expo-router';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import HomeScreen from '@/components/screens/HomeScreen';
+import NotesScreen from '@/components/screens/NotesScreen';
+import AddScreen from '@/components/screens/AddScreen';
+import TrendsScreen from '@/components/screens/TrendsScreen';
+import SettingScreen from '@/components/screens/SettingScreen';
+
+const Tab = createBottomTabNavigator();
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const renderTabBarButton = (props) => (
+    <TouchableOpacity {...props} style={styles.tabBarButton}>
+      {props.children}
+    </TouchableOpacity>
+  );
+
   return (
-    <Tabs
+    <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarShowLabel: false,
         headerShown: false,
+        tabBarButton: renderTabBarButton,
       }}>
-      <Tabs.Screen
-        name="index"
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
         options={{
-          title: 'Home',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
-        name="explore"
+      <Tab.Screen
+        name="Notes"
+        component={NotesScreen}
         options={{
-          title: 'Explore',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
           ),
         }}
       />
-    </Tabs>
+      <Tab.Screen
+        name="Add"
+        component={AddScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <View style={styles.addButton}>
+              <TabBarIcon name="add" color="#fff" />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Trends"
+        component={TrendsScreen}
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'document-text-sharp' : 'document-text-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingScreen}
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBarButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    backgroundColor: '#f16d55',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:30,
+  },
+});
