@@ -32,8 +32,9 @@ const HomeScreen = () => {
     }));
   };
 
-  const navigateToCompleted = () => {
-    navigation.navigate('CompletedScreen');
+  const navigateToTaskDetail = (id) => {
+    // Dynamically navigate to the task detail screen with id
+    navigation.navigate('DetailTaskScreen', { id });
   };
 
   return (
@@ -65,7 +66,7 @@ const HomeScreen = () => {
         </View>
         <View style={styles.cardPair}>
           {cards.slice(2, 4).map((card) => (
-            <TouchableOpacity key={card.id} style={[styles.card, { backgroundColor: card.backgroundColor }]} onPress={navigateToCompleted}>
+            <TouchableOpacity key={card.id} style={[styles.card, { backgroundColor: card.backgroundColor }]} onPress={() => navigateToTaskDetail(card.id)}>
               <AntDesign name={card.icon} size={40} color="#fff" style={styles.icons} />
               <View style={styles.cardContent}>
                 <Text>{card.title}</Text>
@@ -82,22 +83,24 @@ const HomeScreen = () => {
         data={todos}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={[styles.todoItem, { backgroundColor: item.backgroundColor }]}>
-            <View style={styles.todoDetails}>
-              <View style={styles.todoText}>
-                <Text style={styles.todoTitle}>{item.title}</Text>
-                <Text style={styles.todoSubtitle}>{item.subtitle}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={styles.todoTask}>{item.timing}</Text>
+          <TouchableOpacity onPress={() => navigateToTaskDetail(item.id)}>
+            <View style={[styles.todoItem, { backgroundColor: item.backgroundColor }]}>
+              <View style={styles.todoDetails}>
+                <View style={styles.todoText}>
+                  <Text style={styles.todoTitle}>{item.title}</Text>
+                  <Text style={styles.todoSubtitle}>{item.subtitle}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.todoTask}>{item.timing}</Text>
+                  </View>
                 </View>
+                <TouchableOpacity onPress={() => selectedList(item.id)}>
+                  <View style={styles.progressContainer}>
+                    <Text>{selectedMap[item.id] ? '👍' : '👎'}</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={() => selectedList(item.id)}>
-                <View style={styles.progressContainer}>
-                  <Text>{selectedMap[item.id] ? '👍' : '👎'}</Text>
-                </View>
-              </TouchableOpacity>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

@@ -38,6 +38,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="CompletedScreen" />
+        <Stack.Screen name="DetailTaskScreen" />
       </Stack>
     </ThemeProvider>
           </PersistGate>

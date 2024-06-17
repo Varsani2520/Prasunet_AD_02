@@ -19,13 +19,14 @@ const todoReducer = (state: State = initialState, action: TodoAction): State => 
         todos: [...state.todos, action.payload],
       };
     case MARK_AS_COMPLETED:
-      const todoToMove = state.todos.find(todo => todo.id === action.payload.id);
+      const { id } = action.payload;
+      const todoToMove = state.todos.find(todo => todo.id === id);
       if (todoToMove) {
-        const updatedTodos = state.todos.filter(todo => todo.id !== action.payload.id);
+        const updatedTodos = state.todos.filter(todo => todo.id !== id);
         return {
           ...state,
           todos: updatedTodos,
-          completedTodos: [...state.completedTodos, todoToMove],
+          completedTodos: [...state.completedTodos, { ...todoToMove, progress: 100 }], // Update progress if necessary
         };
       }
       return state;
