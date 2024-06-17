@@ -1,3 +1,4 @@
+// types.ts
 export const ADD_TODO = 'ADD_TODO';
 export const MARK_AS_COMPLETED = 'MARK_AS_COMPLETED';
 export const UPDATE_TODO = 'UPDATE_TODO';
@@ -33,5 +34,6 @@ export type RootState = {
   todos: {
     todos: Todo[];
     completedTodos: Todo[];
+    canceledTodos: Todo[]; // Corrected the name here
   };
 };

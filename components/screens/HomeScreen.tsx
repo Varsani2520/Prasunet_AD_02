@@ -1,9 +1,10 @@
+// HomeScreen.js
 import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { markAsCompleted } from '@/hooks/action';
 import { useNavigation } from '@react-navigation/native';
+import { markAsCompleted } from '@/hooks/action';
 
 const HomeScreen = () => {
   const cards = [
@@ -15,6 +16,7 @@ const HomeScreen = () => {
 
   const dispatch = useDispatch();
   const todos = useSelector(state => state.todos.todos);
+  const canceledTodos = useSelector(state => state.todos.canceledTodos); // Get canceled todos from state
   const navigation = useNavigation();
 
   // Maintain a map of selected states for each todo item
@@ -35,6 +37,10 @@ const HomeScreen = () => {
   const navigateToTaskDetail = (id) => {
     // Dynamically navigate to the task detail screen with id
     navigation.navigate('DetailTaskScreen', { id });
+  };
+
+  const navigateToCanceled = () => {
+    navigation.navigate('CanceledScreen'); // Navigate to CanceledScreen
   };
 
   return (
@@ -66,7 +72,11 @@ const HomeScreen = () => {
         </View>
         <View style={styles.cardPair}>
           {cards.slice(2, 4).map((card) => (
-            <TouchableOpacity key={card.id} style={[styles.card, { backgroundColor: card.backgroundColor }]} onPress={() => navigateToTaskDetail(card.id)}>
+            <TouchableOpacity
+              key={card.id}
+              style={[styles.card, { backgroundColor: card.backgroundColor }]}
+              onPress={card.id === 4 ? navigateToCanceled : () => navigateToTaskDetail(card.id)}
+            >
               <AntDesign name={card.icon} size={40} color="#fff" style={styles.icons} />
               <View style={styles.cardContent}>
                 <Text>{card.title}</Text>
