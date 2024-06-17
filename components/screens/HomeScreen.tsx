@@ -1,8 +1,6 @@
-// src/screens/HomeScreen.js
 import { AntDesign } from '@expo/vector-icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import CircularProgress from 'react-native-circular-progress-indicator';
 import { useDispatch, useSelector } from 'react-redux';
 import { markAsCompleted } from '@/hooks/action';
 import { useNavigation } from '@react-navigation/native';
@@ -14,9 +12,29 @@ const HomeScreen = () => {
     { id: 3, title: 'Completed', subtitle: '24 Tasks', backgroundColor: '#53c3c6', icon: 'checkcircle' },
     { id: 4, title: 'Canceled', subtitle: '24 Tasks', backgroundColor: '#d8604b', icon: 'closecircle' },
   ];
+
   const dispatch = useDispatch();
   const todos = useSelector(state => state.todos.todos);
+  const navigation = useNavigation();
 
+  // Maintain a map of selected states for each todo item
+  const [selectedMap, setSelectedMap] = useState(todos.reduce((map, todo) => {
+    map[todo.id] = false;
+    return map;
+  }, {}));
+
+  const selectedList = (itemId) => {
+    // Toggle the completion status for the selected item
+    dispatch(markAsCompleted(itemId));
+    setSelectedMap(prevState => ({
+      ...prevState,
+      [itemId]: !prevState[itemId]
+    }));
+  };
+
+  const navigateToCompleted = () => {
+    navigation.navigate('CompletedScreen');
+  };
 
   return (
     <View style={styles.container}>
@@ -36,28 +54,24 @@ const HomeScreen = () => {
       <View style={styles.cardContainer}>
         <View style={styles.cardPair}>
           {cards.slice(0, 2).map((card) => (
-            <>
-              <View style={[styles.card, { backgroundColor: card.backgroundColor }]}>
-                <AntDesign name={card.icon} size={40} color="#fff" style={styles.icons} />
-                <View style={styles.cardContent}>
-                  <Text>{card.title}</Text>
-                  <Text>{card.subtitle}</Text>
-                </View>
+            <View key={card.id} style={[styles.card, { backgroundColor: card.backgroundColor }]}>
+              <AntDesign name={card.icon} size={40} color="#fff" style={styles.icons} />
+              <View style={styles.cardContent}>
+                <Text>{card.title}</Text>
+                <Text>{card.subtitle}</Text>
               </View>
-            </>
+            </View>
           ))}
         </View>
         <View style={styles.cardPair}>
           {cards.slice(2, 4).map((card) => (
-            <>
-              <View style={[styles.card, { backgroundColor: card.backgroundColor }]}>
-                <AntDesign name={card.icon} size={40} color="#fff" style={styles.icons} />
-                <View style={styles.cardContent}>
-                  <Text>{card.title}</Text>
-                  <Text>{card.subtitle}</Text>
-                </View>
+            <TouchableOpacity key={card.id} style={[styles.card, { backgroundColor: card.backgroundColor }]} onPress={navigateToCompleted}>
+              <AntDesign name={card.icon} size={40} color="#fff" style={styles.icons} />
+              <View style={styles.cardContent}>
+                <Text>{card.title}</Text>
+                <Text>{card.subtitle}</Text>
               </View>
-            </>
+            </TouchableOpacity>
           ))}
         </View>
       </View>
@@ -66,31 +80,24 @@ const HomeScreen = () => {
       <Text style={styles.title}>Recent Tasks</Text>
       <FlatList
         data={todos}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleTodoPress(item.id)}>
-            <View style={[styles.todoItem, { backgroundColor: item.backgroundColor }]}>
-              <View style={styles.todoDetails}>
-                <View style={styles.todoText}>
-                  <Text style={styles.todoTitle}>{item.title}</Text>
-                  <Text style={styles.todoSubtitle}>{item.subtitle}</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <AntDesign name="checkcircle" size={24} color="#74b7ec" style={{ marginRight: 10 }} />
-                    <Text style={styles.todoTask}>{item.timing}</Text>
-                  </View>
-                </View>
-                <View style={styles.progressContainer}>
-                  <CircularProgress
-                    value={item.progress}
-                    radius={20}
-                    maxValue={100}
-                    activeStrokeColor="#74b7ec"
-                    inActiveStrokeColor="#ddd"
-                  />
+          <View style={[styles.todoItem, { backgroundColor: item.backgroundColor }]}>
+            <View style={styles.todoDetails}>
+              <View style={styles.todoText}>
+                <Text style={styles.todoTitle}>{item.title}</Text>
+                <Text style={styles.todoSubtitle}>{item.subtitle}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={styles.todoTask}>{item.timing}</Text>
                 </View>
               </View>
+              <TouchableOpacity onPress={() => selectedList(item.id)}>
+                <View style={styles.progressContainer}>
+                  <Text>{selectedMap[item.id] ? '👍' : '👎'}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+          </View>
         )}
       />
     </View>

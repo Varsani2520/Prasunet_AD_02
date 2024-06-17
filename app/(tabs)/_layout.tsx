@@ -34,19 +34,11 @@ export default function TabLayout() {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} size={24}/>
           ),
         }}
       />
-      <Tab.Screen
-        name="Notes"
-        component={NotesScreen}
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
-          ),
-        }}
-      />
+
       <Tab.Screen
         name="Add"
         component={AddScreen}
@@ -58,21 +50,13 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tab.Screen
-        name="Trends"
-        component={TrendsScreen}
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'document-text-sharp' : 'document-text-outline'} color={color} />
-          ),
-        }}
-      />
+ 
       <Tab.Screen
         name="Settings"
         component={SettingScreen}
         options={{
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} />
+            <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} size={24}/>
           ),
         }}
       />
