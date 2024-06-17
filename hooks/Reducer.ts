@@ -1,5 +1,4 @@
-// reducer.ts
-import { ADD_TODO, MARK_AS_COMPLETED, Todo, TodoAction } from './types';
+import { ADD_TODO, MARK_AS_COMPLETED, UPDATE_TODO, Todo, TodoAction } from './types';
 
 interface State {
   todos: Todo[];
@@ -26,10 +25,15 @@ const todoReducer = (state: State = initialState, action: TodoAction): State => 
         return {
           ...state,
           todos: updatedTodos,
-          completedTodos: [...state.completedTodos, { ...todoToMove, progress: 100 }], // Update progress if necessary
+          completedTodos: [...state.completedTodos, { ...todoToMove, progress: 100 }],
         };
       }
       return state;
+    case UPDATE_TODO:
+      return {
+        ...state,
+        todos: state.todos.map(todo => todo.id === action.payload.id ? action.payload : todo),
+      };
     default:
       return state;
   }
