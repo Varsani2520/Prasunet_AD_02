@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { addTodo } from '@/hooks/action';
@@ -9,7 +9,7 @@ const AddScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [timing, setTiming] = useState(new Date());
-  const [category, setCategory] = useState('select category');
+  const [category, setCategory] = useState('Coding');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedColor, setSelectedColor] = useState('#FFFF00');
 
@@ -41,6 +41,17 @@ const AddScreen = ({ navigation }) => {
     setSelectedColor('#FFFF00'); // Reset color selection to default
 
     navigation.goBack();
+
+    // Show alert message
+    showAlert();
+  };
+
+  const showAlert = () => {
+    Alert.alert(
+      'Task Saved',
+      'Your task has been saved successfully!',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+    );
   };
 
   const colorOptions = [
