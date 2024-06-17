@@ -69,7 +69,7 @@ const AddScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require('../../assets/images/icon.png')}
+          source={require('../../assets/images/to-do-list.png')}
           style={styles.headerImage}
           resizeMode="contain"
         />
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
     marginTop:15
   },
   headerImage: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     marginRight: 10,
   },
   headerText: {

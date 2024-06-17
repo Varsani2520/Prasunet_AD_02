@@ -2,6 +2,7 @@
 export const ADD_TODO = 'ADD_TODO';
 export const MARK_AS_COMPLETED = 'MARK_AS_COMPLETED';
 export const UPDATE_TODO = 'UPDATE_TODO';
+export const CANCEL_TODO = 'CANCEL_TODO'; // Add this line
 
 export type Todo = {
   id: string;
@@ -28,12 +29,18 @@ export interface UpdateTodoAction {
   payload: Todo;
 }
 
-export type TodoAction = AddTodoAction | MarkAsCompletedAction | UpdateTodoAction;
+export interface CancelTodoAction { // Add this interface
+  type: typeof CANCEL_TODO;
+  payload: { id: string };
+}
+
+export type TodoAction = AddTodoAction | MarkAsCompletedAction | UpdateTodoAction | CancelTodoAction;
 
 export type RootState = {
   todos: {
     todos: Todo[];
     completedTodos: Todo[];
-    canceledTodos: Todo[]; // Corrected the name here
+    canceledTodos: Todo[]; // Add this line
+    count: number;
   };
 };

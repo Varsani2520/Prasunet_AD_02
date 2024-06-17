@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { markAsCompleted, updateTodo } from '@/hooks/action';
+import { cancelTodo, markAsCompleted, updateTodo } from '@/hooks/action';
 
 const DetailTaskScreen = () => {
   const route = useRoute();
@@ -39,8 +39,9 @@ const DetailTaskScreen = () => {
   const handleCancel = () => {
     setIsEditing(false);
   };
-
+  
   const handleTaskCancel = () => {
+    dispatch(cancelTodo(todo))
     dispatch(markAsCompleted(todo.id));
     navigation.goBack();
   };

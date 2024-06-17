@@ -1,22 +1,14 @@
-// HomeScreen.js
 import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { markAsCompleted } from '@/hooks/action';
+import { markAsCompleted } from '@/hooks/action'; // Assuming this is correctly imported
 
 const HomeScreen = () => {
-  const cards = [
-    { id: 1, title: 'On going', subtitle: '24 Tasks', backgroundColor: '#74b7ec', icon: 'clockcircle' },
-    { id: 2, title: 'In Process', subtitle: '24 Tasks', backgroundColor: '#fdc246', icon: 'loading1' },
-    { id: 3, title: 'Completed', subtitle: '24 Tasks', backgroundColor: '#53c3c6', icon: 'checkcircle' },
-    { id: 4, title: 'Canceled', subtitle: '24 Tasks', backgroundColor: '#d8604b', icon: 'closecircle' },
-  ];
-
   const dispatch = useDispatch();
-  const todos = useSelector(state => state.todos.todos);
-  const canceledTodos = useSelector(state => state.todos.canceledTodos); // Get canceled todos from state
+  const todos = useSelector(state => state.todos.todos); // Fetching todos from Redux state
+  const completedTodos = useSelector(state => state.todos.completedTodos); // Fetching completed todos
   const navigation = useNavigation();
 
   // Maintain a map of selected states for each todo item
@@ -43,47 +35,58 @@ const HomeScreen = () => {
     navigation.navigate('CanceledScreen'); // Navigate to CanceledScreen
   };
 
+  const navigateToCompleted = () => {
+    navigation.navigate('CompletedScreen'); // Navigate to CompletedScreen
+  };
+
+  // Cards for "On going" and "Completed"
+  const cards = [
+    { id: 1, title: 'On going', subtitle: `${todos.length} Tasks`, backgroundColor: '#74b7ec', icon: 'clockcircle', onPress: navigateToTaskDetail },
+    { id: 2, title: 'Completed', subtitle: `${completedTodos.length} Tasks`, backgroundColor: '#53c3c6', icon: 'checkcircle', onPress: navigateToCompleted },
+  ];
+
   return (
     <View style={styles.container}>
       {/* Top Navigation */}
       <View style={styles.topNav}>
-        <View style={styles.avatar} />
-        <View>
-          <Text style={styles.greetingText}>Hi, Bruce👋</Text>
+        <Image
+        style={styles.logo}
+        source={require('../../assets/images/to-do-list.png')}
+      />       
+       <View>
+          <Text style={styles.greetingText}>Todos</Text>
           <Text style={styles.subtitle}>Your daily Adventure starts now</Text>
         </View>
-        <TouchableOpacity style={styles.menuIcon}>
+        {/* <TouchableOpacity style={styles.menuIcon}>
           <AntDesign name="menuunfold" size={20} color="#000" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Cards Section */}
       <View style={styles.cardContainer}>
-        <View style={styles.cardPair}>
-          {cards.slice(0, 2).map((card) => (
-            <View key={card.id} style={[styles.card, { backgroundColor: card.backgroundColor }]}>
-              <AntDesign name={card.icon} size={40} color="#fff" style={styles.icons} />
-              <View style={styles.cardContent}>
-                <Text>{card.title}</Text>
-                <Text>{card.subtitle}</Text>
-              </View>
+        <View style={styles.card}>
+          <TouchableOpacity
+            style={[styles.cardInner, { backgroundColor: cards[0].backgroundColor }]}
+            onPress={cards[0].onPress}
+          >
+            <AntDesign name={cards[0].icon} size={40} color="#fff" style={styles.icons} />
+            <View style={styles.cardContent}>
+              <Text>{cards[0].title}</Text>
+              <Text>{cards[0].subtitle}</Text>
             </View>
-          ))}
+          </TouchableOpacity>
         </View>
-        <View style={styles.cardPair}>
-          {cards.slice(2, 4).map((card) => (
-            <TouchableOpacity
-              key={card.id}
-              style={[styles.card, { backgroundColor: card.backgroundColor }]}
-              onPress={card.id === 4 ? navigateToCanceled : () => navigateToTaskDetail(card.id)}
-            >
-              <AntDesign name={card.icon} size={40} color="#fff" style={styles.icons} />
-              <View style={styles.cardContent}>
-                <Text>{card.title}</Text>
-                <Text>{card.subtitle}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
+        <View style={styles.card}>
+          <TouchableOpacity
+            style={[styles.cardInner, { backgroundColor: cards[1].backgroundColor }]}
+            onPress={cards[1].onPress}
+          >
+            <AntDesign name={cards[1].icon} size={40} color="#fff" style={styles.icons} />
+            <View style={styles.cardContent}>
+              <Text>{cards[1].title}</Text>
+              <Text>{cards[1].subtitle}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -105,7 +108,9 @@ const HomeScreen = () => {
                 </View>
                 <TouchableOpacity onPress={() => selectedList(item.id)}>
                   <View style={styles.progressContainer}>
-                    <Text>{selectedMap[item.id] ? '👍' : '👎'}</Text>
+                    <Text>{selectedMap[item.id] ?         <AntDesign name="checkcircle" size={30} color="#74b7ec" style={styles.icon} />
+ :         <AntDesign name="checkcircleo" size={30} color="#74b7ec" style={styles.icon} />
+}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -127,13 +132,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-    marginTop: 10,
+    marginTop: 20,
   },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#ccc',
+  icon: {
     marginRight: 10,
   },
   greetingText: {
@@ -161,17 +162,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 8,
     borderLeftWidth: 5,
-    borderLeftColor: 'black',
+    borderLeftColor: '#f16d55',
   },
   cardContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
   },
-  cardPair: {
-    width: '48%',
-  },
   card: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  cardInner: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
@@ -206,6 +208,11 @@ const styles = StyleSheet.create({
   icons: {
     height: 50,
     width: 50,
+  },
+  logo: {
+    width: 40, // Adjust the width as needed
+    height: 40, // Adjust the height as needed
+    marginRight: 10,
   },
 });
 
