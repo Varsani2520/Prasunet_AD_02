@@ -1,54 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux'; // Import useSelector to access Redux state
+import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Colors } from '@/constants/Colors'; // Adjust the import path as needed
 
 const CompletedScreen = () => {
-  // Get completed todos from Redux state
   const completedTodos = useSelector(state => state.todos.completedTodos);
+  
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const loadTheme = async () => {
+      const savedTheme = await AsyncStorage.getItem('theme');
+      if (savedTheme) {
+        setTheme(savedTheme);
+      }
+    };
+
+    loadTheme();
+  }, []);
+
+  const currentThemeColors = Colors[theme];
+
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: currentThemeColors.background,
+      padding: 20,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
+      color: currentThemeColors.text,
+    },
+    todoItem: {
+      borderWidth: 1,
+      padding: 10,
+      marginBottom: 10,
+      borderRadius: 8,
+      borderLeftWidth: 5,
+      borderLeftColor: currentThemeColors.tint,
+      backgroundColor: currentThemeColors.background,
+    },
+    todoTitle: {
+      fontWeight: 'bold',
+      color: currentThemeColors.text,
+    },
+    todoSubtitle: {
+      color: currentThemeColors.text,
+    },
+  });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Completed Todos</Text>
+    <View style={dynamicStyles.container}>
+      <Text style={dynamicStyles.title}>Completed Todos</Text>
       <FlatList
         data={completedTodos}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.todoItem}>
-            <Text style={styles.todoTitle}>{item.title}</Text>
-            <Text style={styles.todoSubtitle}>{item.subtitle}</Text>
-            {/* Add more details as needed */}
+          <View style={dynamicStyles.todoItem}>
+            <Text style={dynamicStyles.todoTitle}>{item.title}</Text>
+            <Text style={dynamicStyles.todoSubtitle}>{item.subtitle}</Text>
           </View>
         )}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  todoItem: {
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 8,
-    borderLeftWidth: 5,
-    borderLeftColor: 'black',
-  },
-  todoTitle: {
-    fontWeight: 'bold',
-  },
-  todoSubtitle: {
-    color: 'gray',
-  },
-});
 
 export default CompletedScreen;

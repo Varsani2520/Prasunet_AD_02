@@ -36,6 +36,7 @@ export default function SettingScreen() {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor:currentThemeColors.background,
     },
     title: {
       fontSize: 24,
