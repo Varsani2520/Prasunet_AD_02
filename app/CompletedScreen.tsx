@@ -35,7 +35,6 @@ const CompletedScreen = () => {
 
   return (
     <View style={dynamicStyles.container}>
-      <Text style={dynamicStyles.title}>Completed Todos</Text>
       <FlatList
         data={completedTodos}
         keyExtractor={(item) => item.id}
