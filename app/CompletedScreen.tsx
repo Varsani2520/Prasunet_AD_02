@@ -41,15 +41,13 @@ const CompletedScreen = () => {
       borderRadius: 8,
       borderLeftWidth: 5,
       borderLeftColor: currentThemeColors.tint,
-      backgroundColor: currentThemeColors.background,
+      // backgroundColor: currentThemeColors.background,
     },
     todoTitle: {
       fontWeight: 'bold',
-      color: currentThemeColors.text,
+      // color: currentThemeColors.text,
     },
-    todoSubtitle: {
-      color: currentThemeColors.text,
-    },
+   
   });
 
   return (
@@ -59,8 +57,9 @@ const CompletedScreen = () => {
         data={completedTodos}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={dynamicStyles.todoItem}>
-            <Text style={dynamicStyles.todoTitle}>{item.title}</Text>
+          <View style={[dynamicStyles.todoItem, { backgroundColor: item.backgroundColor }]}
+          >        
+              <Text style={dynamicStyles.todoTitle}>{item.title}</Text>
             <Text style={dynamicStyles.todoSubtitle}>{item.subtitle}</Text>
           </View>
         )}

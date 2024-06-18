@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { cancelTodo, markAsCompleted, updateTodo } from '@/hooks/action';
+import { AntDesign } from '@expo/vector-icons';
 
 const DetailTaskScreen = () => {
   const route = useRoute();
@@ -75,21 +76,35 @@ const DetailTaskScreen = () => {
             placeholder="Date"
           />
           <View style={styles.buttonContainer}>
-            <Button title="Save" onPress={handleSave} />
-            <Button title="Cancel" onPress={handleCancel} color="red" />
+          <TouchableOpacity style={styles.button} onPress={handleSave}>
+          <AntDesign name="save" size={20} color="blue" style={styles.icon} />
+          <Text style={styles.buttonText}>Edit</Text>
+        </TouchableOpacity>            
+        
+        <TouchableOpacity style={styles.button} onPress={handleCancel}>
+          <AntDesign name="close" size={20} color="blue" style={styles.icon} />
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableOpacity>
           </View>
         </>
       ) : (
         <>
-          <Text style={styles.title}>{todo.title}</Text>
-          <Text style={styles.category}>{todo.tag}</Text>
-          <Text style={styles.description}>{todo.subtitle}</Text>
+          <Text style={styles.category}>tags:{todo.tag}</Text>
+          <Text style={styles.title}>title:{todo.title}</Text>
+          <Text style={styles.description}>description:{todo.subtitle}</Text>
           <Text style={styles.label}>Date:</Text>
           <Text style={styles.date}>{todo.timing}</Text>
           <View style={styles.buttonContainer}>
-            <Button title="Edit" onPress={handleEdit} />
-            <Button title="Cancel Task" onPress={handleTaskCancel} color="red" />
-          </View>
+        <TouchableOpacity style={styles.button} onPress={handleEdit}>
+          <AntDesign name="edit" size={20} color="blue" style={styles.icon} />
+          <Text style={styles.buttonText}>Edit</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.button} onPress={handleTaskCancel}>
+          <AntDesign name="delete" size={20} color="red" style={styles.icon} />
+          <Text style={[styles.buttonText, { color: 'red' }]}>Delete Task</Text>
+        </TouchableOpacity>
+      </View>
         </>
       )}
       <View style={[styles.colorIndicator, { backgroundColor: todo.backgroundColor }]} />
@@ -143,6 +158,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
+    width: '80%',  // Adjust as needed
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    margin: 5,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    flex: 1,  // Adjust flex as needed
+  },
+  icon: {
+    marginRight: 10,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#000',
   },
   colorIndicator: {
     width: 50,
