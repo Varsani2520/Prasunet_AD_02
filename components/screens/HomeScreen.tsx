@@ -19,16 +19,6 @@ const HomeScreen = () => {
     return map;
   }, {}));
 
-  useEffect(() => {
-    const loadTheme = async () => {
-      const savedTheme = await AsyncStorage.getItem('theme');
-      if (savedTheme) {
-        setTheme(savedTheme);
-      }
-    };
-
-    loadTheme();
-  }, []);
 
   const selectedList = (itemId) => {
     dispatch(markAsCompleted(itemId));

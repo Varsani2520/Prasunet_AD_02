@@ -78,7 +78,7 @@ const DetailTaskScreen = () => {
           <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={handleSave}>
           <AntDesign name="save" size={20} color="blue" style={styles.icon} />
-          <Text style={styles.buttonText}>Edit</Text>
+          <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>            
         
         <TouchableOpacity style={styles.button} onPress={handleCancel}>

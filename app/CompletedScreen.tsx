@@ -1,38 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Colors } from '@/constants/Colors'; // Adjust the import path as needed
 
 const CompletedScreen = () => {
   const completedTodos = useSelector(state => state.todos.completedTodos);
-  
-  const [theme, setTheme] = useState('light');
 
-  useEffect(() => {
-    const loadTheme = async () => {
-      const savedTheme = await AsyncStorage.getItem('theme');
-      if (savedTheme) {
-        setTheme(savedTheme);
-      }
-    };
-
-    loadTheme();
-  }, []);
-
-  const currentThemeColors = Colors[theme];
 
   const dynamicStyles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: currentThemeColors.background,
+      backgroundColor: '#fff',
       padding: 20,
     },
     title: {
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 20,
-      color: currentThemeColors.text,
+      color: 'black',
     },
     todoItem: {
       borderWidth: 1,
@@ -40,8 +24,7 @@ const CompletedScreen = () => {
       marginBottom: 10,
       borderRadius: 8,
       borderLeftWidth: 5,
-      borderLeftColor: currentThemeColors.tint,
-      // backgroundColor: currentThemeColors.background,
+      borderLeftColor: 'f16d55',
     },
     todoTitle: {
       fontWeight: 'bold',
