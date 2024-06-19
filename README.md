@@ -1,50 +1,63 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Prasunet_AD_02 | To_Do_APP
 
-## Get started
+A feature-rich Todo application built with React Native, allowing users to manage their tasks efficiently. Users can add new todos, mark them as completed, update or delete them, view details, and analyze their task completion statistics.
+## Features
 
-1. Install dependencies
+- **Add Todos**: Easily add new tasks.
+- **Mark as Completed**: Mark tasks as completed.
+- **View Details**: View detailed information about each task.
+- **Update Todos**: Edit existing tasks.
+- **Delete Todos**: Remove tasks that are no longer needed.
+- **Analytics**: View analytics to see task completion statistics.
+## Technologies Used
 
-   ```bash
-   npm install
-   ```
+- **React Native**: Framework for building native apps using React.
+- **Redux**: State management.
+- **React Navigation**: Routing and navigation.
+- **react-native-chart-kit**: Charting library for analytics.
+- **react-redux**: Official React bindings for Redux.
+## Color Reference
 
-2. Start the app
+| Color             | Hex                                                                |
+| ----------------- | ------------------------------------------------------------------ |
+| Background Color  | ![#FFFFFF](https://via.placeholder.com/10/FFFFFF?text=+) #FFFFFF |
+| Sucessor Color      | ![#00b48a](https://via.placeholder.com/10/00b48a?text=+) #00b48a |
 
-   ```bash
-    npx expo start
-   ```
+## Acknowledgements
 
-In the output, you'll find options to open the app in a
+- Inspired by various todo apps.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Authors
 
-## Get a fresh project
+- [@Varsani2520](https://www.github.com/Varsani2520)
 
-When you're ready, run:
 
-```bash
-npm run reset-project
-```
+## Getting started
+## Usage
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- **Add a Todo:**
+  1. Navigate to the "Add Todo" screen.
+  2. Enter the task details and save.
 
-## Learn more
+- **Mark a Todo as Completed:**
+  1. On the home screen, swipe left on a todo item to mark it as completed.
 
-To learn more about developing your project with Expo, look at the following resources:
+- **View Todo Details:**
+  1. Tap on a todo item to navigate to the detail screen.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- **Update a Todo:**
+  1. On the detail screen, click the "Edit" button to update the todo.
 
-## Join the community
+- **Delete a Todo:**
+  1. Swipe left on a todo item and select "Delete" to remove the todo.
 
-Join our community of developers creating universal apps.
+- **View Analytics:**
+  1. Navigate to the "Analytics" screen to view task completion statistics.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+## Screenshots
+
+
