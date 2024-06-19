@@ -19,6 +19,25 @@ A feature-rich Todo application built with React Native, allowing users to manag
 - **react-native-chart-kit**: Charting library for analytics.
 - **react-redux**: Official React bindings for Redux.
 
+## Get Started 
+### Prerequisites
+
+Ensure you have Node.js and npm installed on your development machine.
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/Varsani2520/Prasunet_AD_02.git
+
+2. Navigate into the project directory
+    ```sh
+     cd Prasunet_AD_02
+
+3. Install dependencies
+    ```sh
+    npm install
+    
 ## Color Reference
 
 | Color            | Hex                                                              |
@@ -73,3 +92,7 @@ A feature-rich Todo application built with React Native, allowing users to manag
 
 5. **Add Screen**  
    ![Add screen](https://github.com/Varsani2520/Prasunet_AD_02/assets/137641079/31236322-db0e-425e-97b3-17d14185646d)
+   
+## Videos
+   
+  
