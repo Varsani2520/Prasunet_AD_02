@@ -60,4 +60,13 @@ A feature-rich Todo application built with React Native, allowing users to manag
 
 ## Screenshots
 
+- 1.Home screen ![Home screen](https://github.com/Varsani2520/Prasunet_AD_02/assets/137641079/b7a7dd3b-c6d8-4005-b83f-dfffb650d5eb)
+
+- 2.Completed screen ![image](https://github.com/Varsani2520/Prasunet_AD_02/assets/137641079/d1cba01d-c7f2-4ee2-8497-9c0dfeffe0ae)
+
+- 3.Detail Screen ![image](https://github.com/Varsani2520/Prasunet_AD_02/assets/137641079/fa7ea71d-327d-4782-b270-efad1c936169)
+
+- 4.Setting screen ![image](https://github.com/Varsani2520/Prasunet_AD_02/assets/137641079/8e8a8cad-9ecd-49d5-8389-c5febecce78d)
+
+- 5.add screen ![image](https://github.com/Varsani2520/Prasunet_AD_02/assets/137641079/31236322-db0e-425e-97b3-17d14185646d)
 
