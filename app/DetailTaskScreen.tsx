@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { cancelTodo, markAsCompleted, updateTodo } from '@/hooks/action';
 import { AntDesign } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
 
 const DetailTaskScreen = () => {
   const route = useRoute();
@@ -18,6 +19,7 @@ const DetailTaskScreen = () => {
   const [editedTag, setEditedTag] = useState(todo?.tag || '');
   const [editedSubtitle, setEditedSubtitle] = useState(todo?.subtitle || '');
   const [editedTiming, setEditedTiming] = useState(todo?.timing || '');
+  const [editedCategory, setEditedCategory] = useState(todo?.category || '');
 
   if (!todo) {
     return (
@@ -32,7 +34,7 @@ const DetailTaskScreen = () => {
   };
 
   const handleSave = () => {
-    const updatedTodo = { ...todo, title: editedTitle, tag: editedTag, subtitle: editedSubtitle, timing: editedTiming };
+    const updatedTodo = { ...todo, title: editedTitle, category: editedCategory, subtitle: editedSubtitle, timing: editedTiming };
     dispatch(updateTodo(updatedTodo));
     setIsEditing(false);
   };
@@ -57,12 +59,20 @@ const DetailTaskScreen = () => {
             onChangeText={setEditedTitle}
             placeholder="Title"
           />
-          <TextInput
-            style={styles.input}
-            value={editedTag}
-            onChangeText={setEditedTag}
-            placeholder="Category"
-          />
+          
+          <Picker
+           selectedValue={editedCategory}
+           style={styles.picker}
+           onValueChange={(itemValue) => setEditedCategory(itemValue)}
+        >
+          <Picker.Item label="Select category" value="Select Category" />
+          <Picker.Item label="Design" value="design" />
+          <Picker.Item label="Development" value="development" />
+          <Picker.Item label="Coding" value="coding" />
+          <Picker.Item label="Meeting" value="meeting" />
+          <Picker.Item label="Office Time" value="office time" />
+          <Picker.Item label="User Experience" value="user experience" />
+        </Picker>
           <TextInput
             style={styles.input}
             value={editedSubtitle}
@@ -96,13 +106,13 @@ const DetailTaskScreen = () => {
           <Text style={styles.date}>{todo.timing}</Text>
           <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleEdit}>
-          <AntDesign name="edit" size={20} color="blue" style={styles.icon} />
+          <AntDesign name="edit" size={20} color="white" style={styles.icon} />
           <Text style={styles.buttonText}>Edit</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.button} onPress={handleTaskCancel}>
           <AntDesign name="delete" size={20} color="red" style={styles.icon} />
-          <Text style={[styles.buttonText, { color: 'red' }]}>Delete Task</Text>
+          <Text style={[styles.buttonText, { color: 'red' }]}>Delete</Text>
         </TouchableOpacity>
       </View>
         </>
@@ -131,7 +141,6 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 16,
-    color: '#888',
     marginBottom: 20,
     lineHeight: 24,
   },
@@ -165,7 +174,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     margin: 5,
-    backgroundColor: '#fff',
+    backgroundColor: '#2196f3',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#ccc',
@@ -176,7 +185,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    color: '#000',
+    color: '#fff',
   },
   colorIndicator: {
     width: 50,

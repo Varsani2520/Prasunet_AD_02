@@ -19,12 +19,12 @@ const CompletedScreen = () => {
       color: 'black',
     },
     todoItem: {
-      borderWidth: 1,
+      // borderWidth: 1,
       padding: 10,
       marginBottom: 10,
       borderRadius: 8,
       borderLeftWidth: 5,
-      borderLeftColor: 'f16d55',
+      borderLeftColor:  '#00b48a',
     },
     todoTitle: {
       fontWeight: 'bold',
