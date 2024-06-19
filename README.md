@@ -75,6 +75,9 @@ Ensure you have Node.js and npm installed on your development machine.
 
 - **View Analytics:**
   1. Navigate to the "Settings" screen to view task completion statistics.
+## Videos
+
+https://github.com/Varsani2520/Prasunet_AD_02/assets/137641079/1648d990-713b-4fea-b03a-3d769a380939
 
 ## Screenshots
 
